@@ -17,7 +17,7 @@ const COLLECTION_SECTIONS = [
   },
   {
     title: "Sustainable Products",
-    description: "Existing VAGARY essentials organised for thoughtful everyday living and gifting.",
+    
     items: [
       { label: "Drinkware", to: "/collections/drinkware", image: "/images/collections/drinkware.jpg" },
       { label: "Planters", to: "/collections/planters", image: "/images/products/pink-ribbed-planters.jpg" },
