@@ -10,8 +10,6 @@ npm install
 npm run dev
 ```
 
-Open the local URL Vite prints (usually http://localhost:5173).
-
 ```bash
 npm run build      # production build
 npm run preview    # preview the production build locally

@@ -4,7 +4,7 @@ import Layout from "../components/Layout";
 const COLLECTION_SECTIONS = [
   {
     title: "Leather",
-    description: "Refined carry goods and professional accessories from the existing VAGARY catalogue.",
+    
     items: [
       { label: "Leather Bags", to: "/collections/leather-bags", image: "/images/products/leather-01.jpg" },
       { label: "Weaving Bags", to: "/collections/weaving-bags", image: "/images/products/weaving-01.jpg" },
@@ -45,12 +45,9 @@ export default function CollectionsPage() {
       <main className="collections-directory">
         <header className="directory-hero">
           <div className="wrap">
-            <p className="eyebrow">The VAGARY Catalogue</p>
-            <h1>Explore the complete collection.</h1>
-            <p>
-              Browse every existing VAGARY collection and move directly from
-              a category name to its complete product detail page.
-            </p>
+            
+            <h1>Explore The  Collection.</h1>
+           
           </div>
         </header>
 

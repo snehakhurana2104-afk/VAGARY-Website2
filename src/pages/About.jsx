@@ -21,7 +21,7 @@ export default function About() {
       <section className="section section-ivory">
         <div className="wrap">
           <div className="split-copy on-ivory" style={{ padding: 0, maxWidth: 780 }}>
-            <p className="eyebrow">Our Approach</p>
+          
             <h2>Sustainable by material, not just by marketing.</h2>
             <p>
               After rice and wheat are harvested, the leftover husks and
@@ -38,9 +38,7 @@ export default function About() {
               <li><IconEarth width={16} height={16} /> Less new plastic</li>
               <li><IconLeaf width={16} height={16} /> Durable, everyday use</li>
             </ul>
-            <Link to="/sustainability" className="btn btn-secondary" style={{ alignSelf: "flex-start" }}>
-              Read Our Sustainability Story <IconArrow className="arrow" width={16} height={16} />
-            </Link>
+           
           </div>
         </div>
       </section>
@@ -52,7 +50,7 @@ export default function About() {
               <p className="eyebrow">What We Make</p>
               <h2>Four collections, one material philosophy.</h2>
             </div>
-            <Link to="/collections" className="view-all">View All Collections →</Link>
+            
           </div>
           <div className="catalog-grid">
             <Link to="/collections#drinkware" className="catalog-item">Drinkware →</Link>

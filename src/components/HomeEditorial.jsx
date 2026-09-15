@@ -32,10 +32,10 @@ export default function HomeEditorial() {
         <div className="wrap">
           <div className="home-showcase-heading">
             <div>
-              <p className="eyebrow">A considered edit</p>
+              
               <h2>Made for the way you live.</h2>
             </div>
-            <p>Explore sustainable essentials, refined accessories and considered gifting solutions.</p>
+           
           </div>
 
           <div className="home-showcase-grid">

@@ -33,13 +33,6 @@ export default function NotFound() {
                 height={16}
               />
             </Link>
-
-            <Link
-              to="/collections"
-              className="btn btn-secondary"
-            >
-              Explore Collections
-            </Link>
           </div>
 
         </div>

@@ -28,7 +28,8 @@ export default function Hero() {
         <div className="hero-copy">
 
           {/* Small heading */}
-         
+          <p className="hero-eyebrow">VAGARY · SUSTAINABLE LIVING</p>
+
           {/* Main heading */}
           <h1>
             Sustainable essentials.

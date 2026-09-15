@@ -1,9 +1,10 @@
-
-
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import { drinkwareCatalog, bottlesCatalog } from "../data/products";
+import {
+  drinkwareCatalog,
+  bottlesCatalog,
+} from "../data/products";
 import { formatPrice } from "../utils/formatPrice";
 import { submitEnquiry } from "../utils/submitEnquiry";
 
@@ -38,6 +39,10 @@ function getExistingImage(product) {
   return possibleImages[0] || "";
 }
 
+// ============================================================
+// BUILD PRODUCTS
+// ============================================================
+
 function buildProducts({
   key,
   category,
@@ -46,6 +51,7 @@ function buildProducts({
   material,
   description,
   images = [],
+  imageSets = [],
 }) {
   const fallbackImages = {
     cup: "/images/products/01-eco-fibre-ribbed-cup-set.jpg",
@@ -57,36 +63,62 @@ function buildProducts({
     canvas: "/images/products/canvas-01.jpg",
     leather: "/images/products/leather-01.jpg",
     weaving: "/images/products/weaving-01.jpg",
-    "cotton-canvas": "/images/products/cotton-canvas-01.jpg",
+    "cotton-canvas":
+      "/images/products/cotton-canvas-01.jpg",
     polo: "/images/products/polo-01.jpg",
     wallet: "/images/products/wallet-01.jpg",
-    "card-case": "/images/products/card-case-01.jpg",
-    "corporate-gift": "/images/gifting/hexa-gift-box.jpg",
+    "card-case":
+      "/images/products/card-case-01.jpg",
+    "corporate-gift":
+      "/images/gifting/hexa-gift-box.jpg",
   };
 
-  const fallbackImage = fallbackImages[prefix] || "/images/products/eco-spring-bottle-duo.jpg";
+  const fallbackImage =
+    fallbackImages[prefix] ||
+    "/images/products/eco-spring-bottle-duo.jpg";
 
-  return names.slice(0, 10).map((name, index) => ({
-    id: `${key}-${index + 1}`,
-    name,
-    category,
-    details: "Premium collection product",
-    material,
-    description,
-    image:
-      images[index] ||
-      fallbackImage,
-  }));
+  return names.slice(0, 10).map((name, index) => {
+    const primaryImage =
+      images[index] || fallbackImage;
+
+    const alternateImages =
+      Array.isArray(imageSets[index])
+        ? imageSets[index].filter(Boolean)
+        : [];
+
+    const allImages = [
+      primaryImage,
+      ...alternateImages,
+    ].filter(Boolean);
+
+    return {
+      id: `${key}-${index + 1}`,
+      name,
+      category,
+      details: "Premium collection product",
+      material,
+      description,
+
+      // Main image
+      image: primaryImage,
+
+      // Main + alternate images
+      images: [...new Set(allImages)],
+    };
+  });
 }
 
 // ============================================================
 // PRODUCT NAMES
-// 10 PRODUCTS EACH
 // ============================================================
 
-const CUP_NAMES = drinkwareCatalog.map((item) => item.name);
+const CUP_NAMES = drinkwareCatalog.map(
+  (item) => item.name
+);
 
-const BOTTLE_NAMES = bottlesCatalog.map((item) => item.name);
+const BOTTLE_NAMES = bottlesCatalog.map(
+  (item) => item.name
+);
 
 const KITCHEN_NAMES = [
   "Bamboo Kitchen Set",
@@ -153,6 +185,10 @@ const BAG_NAMES = [
   "Signature VAGARY Bag",
 ];
 
+// ============================================================
+// LEATHER BAG NAMES
+// ============================================================
+
 const LEATHER_BAG_NAMES = [
   "Classic Leather Tote",
   "Executive Leather Bag",
@@ -165,6 +201,10 @@ const LEATHER_BAG_NAMES = [
   "Premium Leather Utility Bag",
   "Signature Leather Bag",
 ];
+
+// ============================================================
+// WEAVING
+// ============================================================
 
 const WEAVING_BAG_NAMES = [
   "Natural Woven Tote",
@@ -179,6 +219,10 @@ const WEAVING_BAG_NAMES = [
   "Signature Woven Bag",
 ];
 
+// ============================================================
+// CANVAS
+// ============================================================
+
 const CANVAS_BAG_NAMES = [
   "Classic Canvas Tote",
   "Premium Canvas Shopper",
@@ -191,6 +235,10 @@ const CANVAS_BAG_NAMES = [
   "Natural Canvas Shopper",
   "Signature Canvas Bag",
 ];
+
+// ============================================================
+// COTTON CANVAS
+// ============================================================
 
 const COTTON_CANVAS_NAMES = [
   "Cotton Canvas Pouch",
@@ -205,6 +253,10 @@ const COTTON_CANVAS_NAMES = [
   "Signature Canvas Accessory",
 ];
 
+// ============================================================
+// POLO
+// ============================================================
+
 const POLO_NAMES = [
   "Classic Polo Belt",
   "Premium Polo Belt",
@@ -217,6 +269,10 @@ const POLO_NAMES = [
   "Signature Lifestyle Belt",
   "VAGARY Premium Belt",
 ];
+
+// ============================================================
+// WALLET
+// ============================================================
 
 const WALLET_NAMES = [
   "Classic Leather Wallet",
@@ -231,6 +287,10 @@ const WALLET_NAMES = [
   "Signature VAGARY Wallet",
 ];
 
+// ============================================================
+// CARD CASE
+// ============================================================
+
 const CARD_CASE_NAMES = [
   "Classic Card Case",
   "Premium Leather Card Case",
@@ -244,6 +304,10 @@ const CARD_CASE_NAMES = [
   "Signature Card Case",
 ];
 
+// ============================================================
+// CORPORATE GIFTPACK
+// ============================================================
+
 const CORPORATE_GIFT_NAMES = [
   "Executive Gift Set",
   "Premium Corporate Gift Box",
@@ -256,9 +320,58 @@ const CORPORATE_GIFT_NAMES = [
   "Premium Business Gift Box",
   "Signature VAGARY Gift Set",
 ];
+// ============================================================
+// PLANTERS — 10 IMAGES
+// ============================================================
+
+const PLANTER_IMAGES = [
+  "/images/products/classic-eco-planter.jpg",
+  "/images/products/minimal-desk-planter.jpg",
+  "/images/products/natural-bamboo-planter.jpg",
+  "/images/products/premium-office-planter.jpg",
+  "/images/products/round-garden-planter.jpg",
+  "/images/products/indoor-eco-planter.jpg",
+  "/images/products/handcrafted-planter.jpg",
+  "/images/products/corporate-green-planter.jpg",
+  "/images/products/decorative-natural-planter.jpg",
+  "/images/products/signature-vagary-planter.jpg",
+];
 
 // ============================================================
-// EXISTING IMAGE FILES
+// KITCHEN — 10 IMAGES
+// ============================================================
+
+const KITCHEN_IMAGES = [
+  "/images/products/bamboo-kitchen-set.jpg",
+  "/images/products/eco-serving-set.jpg",
+  "/images/products/wooden-kitchen-spoon-set.jpg",
+  "/images/products/natural-cutting-board.jpg",
+  "/images/products/bamboo-storage-set.jpg",
+  "/images/products/premium-kitchen-organizer.jpg",
+  "/images/products/eco-dining-set.jpg",
+  "/images/products/wooden-serving-tray.jpg",
+  "/images/products/natural-kitchen-accessory.jpg",
+  "/images/products/signature-kitchen-set.jpg",
+];
+
+// ============================================================
+// CORPORATE GIFTPACK — 10 IMAGES
+// ============================================================
+
+const CORPORATE_GIFT_IMAGES = [
+  "/images/products/premium-corporate-gift-box.jpg",
+  "/images/products/eco-welcome-kit.jpg",
+  "/images/products/employee-gift-kit.jpg",
+  "/images/products/client-appreciation-set.jpg",
+  "/images/products/corporate-wellness-kit.jpg",
+  "/images/products/sustainable-office-kit.jpg",
+  "/images/products/executive-travel-gift-set.jpg",
+  "/images/products/premium-business-gift-box.jpg",
+  "/images/products/signature-vagary-gift-set.jpg",
+  "/images/products/executive-gift-set.jpg",
+];
+// ============================================================
+// EXISTING PRODUCT IMAGES
 // ============================================================
 
 const BOTTLE_IMAGES = [
@@ -314,10 +427,159 @@ const GARDENWARE_IMAGES = [
 ];
 
 // ============================================================
+// LEATHER BAG IMAGES
+// 10 PRODUCTS
+// ============================================================
+
+const LEATHER_BAG_IMAGES = [
+  "/images/products/classic-leather-tote.jpg",
+  "/images/products/executive-leather-bag.jpg",
+  "/images/products/premium-leather-office-bag.jpg",
+  "/images/products/leather-travel-tote.jpg",
+  "/images/products/minimal-leather-carry-bag.jpg",
+  "/images/products/leather-laptop-bag.jpg",
+  "/images/products/leather-executive-sling.jpg",
+  "/images/products/classic-leather-shopper.jpg",
+  "/images/products/premium-leather-utility-bag.jpg",
+  "/images/products/signature-leather-bag.jpg",
+];
+
+// ============================================================
+// WEAVING BAG IMAGES
+// ============================================================
+
+const WEAVING_BAG_IMAGES = [
+  "/images/products/natural-woven-tote.jpg",
+  "/images/products/handwoven-carry-bag.jpg",
+  "/images/products/eco-woven-shopper.jpg",
+  "/images/products/natural-weave-office-bag.jpg",
+  "/images/products/woven-market-bag.jpg",
+  "/images/products/handcrafted-woven-tote.jpg",
+  "/images/products/premium-weave-bag.jpg",
+  "/images/products/woven-lifestyle-bag.jpg",
+  "/images/products/natural-utility-basket-bag.jpg",
+  "/images/products/signature-woven-bag.jpg",
+];
+
+// ============================================================
+// CANVAS BAG MAIN IMAGES
+// 1-10
+// ============================================================
+
+const CANVAS_BAG_IMAGES = [
+  "/images/products/classic-canvas-tote.jpg",
+  "/images/products/premium-canvas-shopper.jpg",
+  "/images/products/canvas-office-bag.jpg",
+  "/images/products/eco-canvas-carry-bag.jpg",
+  "/images/products/canvas-travel-tote.jpg",
+  "/images/products/minimal-canvas-bag.jpg",
+  "/images/products/corporate-canvas-tote.jpg",
+  "/images/products/canvas-utility-bag.jpg",
+  "/images/products/natural-canvas-shopper.jpg",
+  "/images/products/signature-canvas-bag.jpg",
+];
+
+// ============================================================
+// CANVAS ALTERNATE IMAGES
+// 11-20
+// These are paired with products 1-10
+// ============================================================
+
+const CANVAS_BAG_ALT_IMAGES = [
+  "/images/products/canvas/classic-canvas-tote-alt.jpg",
+  "/images/products/canvas/premium-canvas-shopper-alt.jpg",
+  "/images/products/canvas/canvas-office-bag-alt.jpg",
+  "/images/products/canvas/eco-canvas-carry-bag-alt.jpg",
+  "/images/products/canvas/canvas-travel-tote-alt.jpg",
+  "/images/products/canvas/minimal-canvas-bag-alt.jpg",
+  "/images/products/canvas/corporate-canvas-tote-alt.jpg",
+  "/images/products/canvas/canvas-utility-bag-alt.jpg",
+  "/images/products/canvas/natural-canvas-shopper-alt.jpg",
+  "/images/products/canvas/signature-canvas-bag-alt.jpg",
+];
+
+// ============================================================
+// CANVAS IMAGE SETS
+// Each product gets:
+// Main image + alternate image
+// ============================================================
+
+const CANVAS_BAG_IMAGE_SETS =
+  CANVAS_BAG_IMAGES.map((image, index) => [
+    image,
+    CANVAS_BAG_ALT_IMAGES[index],
+  ]);
+
+// ============================================================
+// COTTON CANVAS
+// ============================================================
+
+const COTTON_CANVAS_IMAGES = [
+  "/images/products/cotton-canvas-pouch.jpg",
+  "/images/products/canvas-utility-pouch.jpg",
+  "/images/products/cotton-travel-organizer.jpg",
+  "/images/products/premium-canvas-case.jpg",
+  "/images/products/canvas-document-pouch.jpg",
+  "/images/products/cotton-storage-pouch.jpg",
+  "/images/products/eco-accessory-case.jpg",
+  "/images/products/canvas-tech-organizer.jpg",
+  "/images/products/cotton-gift-pouch.jpg",
+  "/images/products/signature-canvas-accessory.jpg",
+];
+
+// ============================================================
+// POLO
+// ============================================================
+
+const POLO_IMAGES = [
+  "/images/products/classic-polo-belt.jpg",
+  "/images/products/premium-polo-belt.jpg",
+  "/images/products/executive-casual-belt.jpg",
+  "/images/products/leather-polo-belt.jpg",
+  "/images/products/classic-lifestyle-belt.jpg",
+  "/images/products/corporate-polo-accessory.jpg",
+  "/images/products/premium-everyday-belt.jpg",
+  "/images/products/minimal-polo-belt.jpg",
+  "/images/products/signature-lifestyle-belt.jpg",
+  "/images/products/vagary-premium-belt.jpg",
+];
+
+// ============================================================
+// WALLET
+// ============================================================
+
+const WALLET_IMAGES = [
+  "/images/products/classic-leather-wallet.jpg",
+  "/images/products/executive-leather-wallet.jpg",
+  "/images/products/slim-card-wallet.jpg",
+  "/images/products/premium-bifold-wallet.jpg",
+  "/images/products/minimal-leather-wallet.jpg",
+  "/images/products/classic-office-wallet.jpg",
+  "/images/products/corporate-gift-wallet.jpg",
+  "/images/products/travel-leather-wallet.jpg",
+  "/images/products/premium-everyday-wallet.jpg",
+  "/images/products/signature-vagary-wallet.jpg",
+];
+
+// ============================================================
+// CARD CASE
+// ============================================================
+
+const CARD_CASE_IMAGES = [
+  "/images/products/classic-card-case.jpg",
+  "/images/products/premium-leather-card-case.jpg",
+  "/images/products/slim-business-card-case.jpg",
+  "/images/products/executive-card-holder.jpg",
+  "/images/products/minimal-card-wallet.jpg",
+  "/images/products/corporate-card-case.jpg",
+  "/images/products/leather-id-card-case.jpg",
+  "/images/products/premium-office-card-holder.jpg",
+  "/images/products/classic-business-card-holder.jpg",
+  "/images/products/signature-card-case.jpg",
+];
+
+// ============================================================
 // CATEGORY DATA
-// 15 CATEGORIES
-// 10 PRODUCTS EACH
-// TOTAL = 150 PRODUCTS
 // ============================================================
 
 const CATEGORY_DATA = {
@@ -337,17 +599,20 @@ const CATEGORY_DATA = {
         category: "Drinkware",
         names: CUP_NAMES,
         prefix: "cup",
-        material: "Ceramic / sustainable materials",
+        material:
+          "Ceramic / sustainable materials",
         description:
-          "Thoughtfully designed drinkware for everyday use and gifting.",
+          "Elegant drinkware for everyday use and gifting.",
         images: CUP_IMAGES,
       }),
+
       ...buildProducts({
         key: "drinkware-bottles",
         category: "Drinkware",
         names: BOTTLE_NAMES,
         prefix: "bottle",
-        material: "Stainless steel / reusable materials",
+        material:
+          "Stainless steel / reusable materials",
         description:
           "Durable reusable bottles for everyday hydration and gifting.",
         images: BOTTLE_IMAGES,
@@ -363,14 +628,15 @@ const CATEGORY_DATA = {
     title: "Cups",
     eyebrow: "Drinkware",
     description:
-      "Thoughtfully designed cups and mugs for everyday office, hospitality and corporate gifting.",
+      "Designed cups and mugs for everyday office, hospitality and corporate gifting.",
 
     products: buildProducts({
       key: "cups",
       category: "Cups",
       names: CUP_NAMES,
       prefix: "cup",
-      material: "Ceramic / sustainable materials",
+      material:
+        "Ceramic / sustainable materials",
       description:
         "Elegant everyday drinkware designed for premium corporate and lifestyle use.",
       images: CUP_IMAGES,
@@ -392,9 +658,10 @@ const CATEGORY_DATA = {
       category: "Bottles",
       names: BOTTLE_NAMES,
       prefix: "bottle",
-      material: "Stainless steel / reusable materials",
+      material:
+        "Stainless steel / reusable materials",
       description:
-        "Durable reusable bottle designed for everyday hydration and corporate gifting.",
+        "Durable reusable bottles designed for everyday hydration and gifting.",
       images: BOTTLE_IMAGES,
     }),
   },
@@ -404,22 +671,22 @@ const CATEGORY_DATA = {
   // ==========================================================
 
   "kitchen-items": {
-    title: "Kitchen Items",
-    eyebrow: "Kitchen",
+  title: "Kitchen Items",
+  eyebrow: "Kitchen",
+  description:
+    "Functional kitchen essentials created with a refined sustainable aesthetic.",
+
+  products: buildProducts({
+    key: "kitchen-items",
+    category: "Kitchen Items",
+    names: KITCHEN_NAMES,
+    prefix: "kitchen",
+    material: "Bamboo / wood / sustainable materials",
     description:
-      "Functional kitchen essentials created with a refined sustainable aesthetic.",
-
-    products: buildProducts({
-      key: "kitchen-items",
-      category: "Kitchen Items",
-      names: KITCHEN_NAMES,
-      prefix: "kitchen",
-      material: "Bamboo / wood / sustainable materials",
-      description:
-        "Functional kitchen accessory designed for conscious everyday living.",
-    }),
-  },
-
+      "Functional kitchen accessories designed for conscious everyday living.",
+    images: KITCHEN_IMAGES,
+  }),
+},
   // ==========================================================
   // TABLEWARE
   // ==========================================================
@@ -435,9 +702,10 @@ const CATEGORY_DATA = {
       category: "Tableware",
       names: TABLEWARE_NAMES,
       prefix: "tableware",
-      material: "Ceramic / stoneware / sustainable materials",
+      material:
+        "Ceramic / stoneware / sustainable materials",
       description:
-        "Premium tableware designed to bring understated elegance to everyday dining.",
+        "Premium tableware designed for understated everyday dining.",
       images: TABLEWARE_IMAGES,
     }),
   },
@@ -457,9 +725,10 @@ const CATEGORY_DATA = {
       category: "Gardenware",
       names: GARDENWARE_NAMES,
       prefix: "gardenware",
-      material: "Natural wood / bamboo / sustainable materials",
+      material:
+        "Natural wood / bamboo / sustainable materials",
       description:
-        "Natural garden accessory created for conscious homes, offices and gifting.",
+        "Natural garden accessories created for conscious homes, offices and gifting.",
       images: GARDENWARE_IMAGES,
     }),
   },
@@ -469,22 +738,22 @@ const CATEGORY_DATA = {
   // ==========================================================
 
   planters: {
-    title: "Planters",
-    eyebrow: "Garden & Green Living",
+  title: "Planters",
+  eyebrow: "Garden & Green Living",
+  description:
+    "Minimal planters for workspaces, homes, hospitality and corporate gifting.",
+
+  products: buildProducts({
+    key: "planters",
+    category: "Planters",
+    names: PLANTER_NAMES,
+    prefix: "planter",
+    material: "Natural / recycled / sustainable materials",
     description:
-      "Minimal planters for workspaces, homes, hospitality and corporate gifting.",
-
-    products: buildProducts({
-      key: "planters",
-      category: "Planters",
-      names: PLANTER_NAMES,
-      prefix: "planter",
-      material: "Natural / recycled / sustainable materials",
-      description:
-        "Minimal planter designed to add a natural touch to modern spaces.",
-    }),
-  },
-
+      "Minimal planter designed to add a natural touch to modern spaces.",
+    images: PLANTER_IMAGES,
+  }),
+},
   // ==========================================================
   // BAGS
   // ==========================================================
@@ -500,9 +769,10 @@ const CATEGORY_DATA = {
       category: "Bags",
       names: BAG_NAMES,
       prefix: "canvas",
-      material: "Canvas / leather / woven materials",
+      material:
+        "Canvas / leather / woven materials",
       description:
-        "Versatile everyday bag designed for modern corporate and lifestyle use.",
+        "Versatile everyday bags designed for modern corporate and lifestyle use.",
 
       images: [
         "/images/products/canvas-01.jpg",
@@ -525,9 +795,8 @@ const CATEGORY_DATA = {
 
   "leather-bags": {
     title: "Leather Bags",
-    eyebrow: "Bags",
-    description:
-      "Premium leather bags crafted for executives, professionals and premium gifting.",
+    
+   
 
     products: buildProducts({
       key: "leather-bags",
@@ -536,7 +805,8 @@ const CATEGORY_DATA = {
       prefix: "leather",
       material: "Premium leather",
       description:
-        "Refined leather bag designed for premium professional and corporate use.",
+        "Refined leather bags designed for premium professional and corporate use.",
+      images: LEATHER_BAG_IMAGES,
     }),
   },
 
@@ -557,7 +827,8 @@ const CATEGORY_DATA = {
       prefix: "weaving",
       material: "Natural woven material",
       description:
-        "Handcrafted woven bag combining natural texture with contemporary utility.",
+        "Handcrafted woven bags combining natural texture with contemporary utility.",
+      images: WEAVING_BAG_IMAGES,
     }),
   },
 
@@ -578,7 +849,13 @@ const CATEGORY_DATA = {
       prefix: "canvas",
       material: "Premium canvas",
       description:
-        "Durable canvas bag designed for practical everyday and corporate use.",
+        "Durable canvas bags designed for practical everyday and corporate use.",
+
+      // Main images 1-10
+      images: CANVAS_BAG_IMAGES,
+
+      // Alternate images 11-20
+      imageSets: CANVAS_BAG_IMAGE_SETS,
     }),
   },
 
@@ -599,12 +876,13 @@ const CATEGORY_DATA = {
       prefix: "cotton-canvas",
       material: "Premium cotton canvas",
       description:
-        "Reusable cotton canvas accessory designed for everyday organization.",
+        "Reusable cotton canvas accessories designed for everyday organization.",
+      images: COTTON_CANVAS_IMAGES,
     }),
   },
 
   // ==========================================================
-  // POLO BELTS & ACCESSORIES
+  // POLO BELTS
   // ==========================================================
 
   "polo-belts-accessories": {
@@ -618,9 +896,11 @@ const CATEGORY_DATA = {
       category: "Polo Belts & Accessories",
       names: POLO_NAMES,
       prefix: "polo",
-      material: "Premium lifestyle materials",
+      material:
+        "Premium lifestyle materials",
       description:
-        "Premium lifestyle accessory designed for everyday professional use.",
+        "Premium lifestyle accessories designed for everyday professional use.",
+      images: POLO_IMAGES,
     }),
   },
 
@@ -641,12 +921,13 @@ const CATEGORY_DATA = {
       prefix: "wallet",
       material: "Premium leather material",
       description:
-        "Premium wallet designed for elegant everyday organization.",
+        "Premium wallets designed for elegant everyday organization.",
+      images: WALLET_IMAGES,
     }),
   },
 
   // ==========================================================
-  // CARD CASES
+  // CARD CASE
   // ==========================================================
 
   "card-case": {
@@ -662,7 +943,8 @@ const CATEGORY_DATA = {
       prefix: "card-case",
       material: "Premium leather material",
       description:
-        "Slim card holder designed for modern professional use.",
+        "Slim card holders designed for modern professional use.",
+      images: CARD_CASE_IMAGES,
     }),
   },
 
@@ -671,28 +953,35 @@ const CATEGORY_DATA = {
   // ==========================================================
 
   "corporate-giftpack": {
-    title: "Corporate Giftpack",
-    eyebrow: "Corporate Gifting",
-    description:
-      "Curated corporate gifting solutions designed for employees, clients and business occasions.",
 
-    products: buildProducts({
-      key: "corporate-giftpack",
-      category: "Corporate Giftpack",
-      names: CORPORATE_GIFT_NAMES,
-      prefix: "corporate-gift",
-      material: "Premium sustainable materials",
-      description:
-        "Curated gifting collection designed for premium corporate occasions.",
-    }),
-  },
-};
+  title: "Corporate Giftpack",
+  eyebrow: "Corporate Gifting",
+  description:
+    "Curated corporate gifting solutions designed for employees, clients and business occasions.",
+
+  products: buildProducts({
+    key: "corporate-giftpack",
+    category: "Corporate Giftpack",
+    names: CORPORATE_GIFT_NAMES,
+    prefix: "corporate-gift",
+    material: "Premium sustainable materials",
+    description:
+      "Curated gifting collections designed for premium corporate occasions.",
+    images: CORPORATE_GIFT_IMAGES,
+  }),
+},
+    
+  }
+
 
 // ============================================================
 // PRODUCT CARD
 // ============================================================
 
-function ProductCard({ product, onAddItem }) {
+function ProductCard({
+  product,
+  onAddItem,
+}) {
   const image = getExistingImage(product);
 
   return (
@@ -702,11 +991,15 @@ function ProductCard({ product, onAddItem }) {
         {image ? (
           <img
             src={image}
-            alt={product.name || "VAGARY product"}
+            alt={
+              product.name ||
+              "VAGARY product"
+            }
             loading="lazy"
             decoding="async"
             onError={(event) => {
-              event.currentTarget.style.display = "none";
+              event.currentTarget.style.display =
+                "none";
 
               const fallback =
                 event.currentTarget.parentElement?.querySelector(
@@ -714,7 +1007,8 @@ function ProductCard({ product, onAddItem }) {
                 );
 
               if (fallback) {
-                fallback.style.display = "flex";
+                fallback.style.display =
+                  "flex";
               }
             }}
           />
@@ -723,7 +1017,9 @@ function ProductCard({ product, onAddItem }) {
         <div
           className="product-image-fallback"
           style={{
-            display: image ? "none" : "flex",
+            display: image
+              ? "none"
+              : "flex",
           }}
           aria-hidden="true"
         >
@@ -735,7 +1031,8 @@ function ProductCard({ product, onAddItem }) {
       <div className="category-product-content">
         <div className="category-product-top">
           <span className="category-product-category">
-            {product.category || "Collection"}
+            {product.category ||
+              "Collection"}
           </span>
         </div>
 
@@ -749,7 +1046,9 @@ function ProductCard({ product, onAddItem }) {
 
         {product.material && (
           <p className="product-material">
-            <strong>Material:</strong>{" "}
+            <strong>
+              Material:
+            </strong>{" "}
             {product.material}
           </p>
         )}
@@ -760,18 +1059,22 @@ function ProductCard({ product, onAddItem }) {
           </p>
         )}
 
-        {/* ADD ITEMS */}
+        {/* BOTTOM */}
         <div className="category-product-bottom">
           <span className="product-price">
             {product.price == null
               ? "Price on Request"
-              : formatPrice(product.price)}
+              : formatPrice(
+                  product.price
+                )}
           </span>
 
           <button
             type="button"
             className="category-product-enquire"
-            onClick={() => onAddItem(product)}
+            onClick={() =>
+              onAddItem(product)
+            }
           >
             ADD ITEM
           </button>
@@ -797,16 +1100,21 @@ function EnquiryDrawer({
     return null;
   }
 
-  const totalQuantity = items.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
+  const totalQuantity =
+    items.reduce(
+      (total, item) =>
+        total + item.quantity,
+      0
+    );
 
   return (
     <div
       className="enquiry-drawer-overlay"
       onMouseDown={(event) => {
-        if (event.target === event.currentTarget) {
+        if (
+          event.target ===
+          event.currentTarget
+        ) {
           onClose();
         }
       }}
@@ -815,14 +1123,16 @@ function EnquiryDrawer({
         className="enquiry-drawer"
         aria-label="Selected products enquiry drawer"
       >
-        {/* DRAWER HEADER */}
+        {/* HEADER */}
         <div className="enquiry-drawer-header">
           <div>
             <span className="enquiry-drawer-eyebrow">
               YOUR SELECTION
             </span>
 
-            <h2>Enquiry List</h2>
+            <h2>
+              Enquiry List
+            </h2>
           </div>
 
           <button
@@ -835,7 +1145,7 @@ function EnquiryDrawer({
           </button>
         </div>
 
-        {/* DRAWER BODY */}
+        {/* BODY */}
         <div className="enquiry-drawer-body">
           {items.length === 0 ? (
             <div className="enquiry-empty">
@@ -843,44 +1153,62 @@ function EnquiryDrawer({
                 +
               </div>
 
-              <h3>No products selected</h3>
+              <h3>
+                No products selected
+              </h3>
 
               <p>
-                Add products from the collection to
-                create your enquiry list.
+                Add products from the
+                collection to create
+                your enquiry list.
               </p>
             </div>
           ) : (
             <div className="enquiry-selected-items">
               {items.map((item) => {
-                const image = getExistingImage(
-                  item.product
-                );
+                const image =
+                  getExistingImage(
+                    item.product
+                  );
 
                 return (
                   <div
                     className="enquiry-selected-item"
-                    key={item.product.id}
+                    key={
+                      item.product.id
+                    }
                   >
                     {/* IMAGE */}
                     <div className="enquiry-selected-image">
                       {image ? (
                         <img
                           src={image}
-                          alt={item.product.name}
+                          alt={
+                            item.product.name
+                          }
                         />
                       ) : (
-                        <span>V</span>
+                        <span>
+                          V
+                        </span>
                       )}
                     </div>
 
                     {/* CONTENT */}
                     <div className="enquiry-selected-content">
                       <span className="enquiry-selected-category">
-                        {item.product.category}
+                        {
+                          item.product
+                            .category
+                        }
                       </span>
 
-                      <h4>{item.product.name}</h4>
+                      <h4>
+                        {
+                          item.product
+                            .name
+                        }
+                      </h4>
 
                       {/* QUANTITY */}
                       <div className="enquiry-quantity">
@@ -889,12 +1217,16 @@ function EnquiryDrawer({
                             type="button"
                             onClick={() =>
                               onQuantityChange(
-                                item.product.id,
-                                item.quantity - 1
+                                item
+                                  .product
+                                  .id,
+                                item.quantity -
+                                  1
                               )
                             }
                             disabled={
-                              item.quantity <= 1
+                              item.quantity <=
+                              1
                             }
                             aria-label="Decrease quantity"
                           >
@@ -902,15 +1234,20 @@ function EnquiryDrawer({
                           </button>
 
                           <span>
-                            {item.quantity}
+                            {
+                              item.quantity
+                            }
                           </span>
 
                           <button
                             type="button"
                             onClick={() =>
                               onQuantityChange(
-                                item.product.id,
-                                item.quantity + 1
+                                item
+                                  .product
+                                  .id,
+                                item.quantity +
+                                  1
                               )
                             }
                             aria-label="Increase quantity"
@@ -924,7 +1261,9 @@ function EnquiryDrawer({
                           className="enquiry-remove-item"
                           onClick={() =>
                             onRemove(
-                              item.product.id
+                              item
+                                .product
+                                .id
                             )
                           }
                         >
@@ -939,17 +1278,24 @@ function EnquiryDrawer({
           )}
         </div>
 
-        {/* DRAWER FOOTER */}
+        {/* FOOTER */}
         <div className="enquiry-drawer-footer">
           <div className="enquiry-item-count">
-            <span>Selected Items</span>
-            <strong>{totalQuantity}</strong>
+            <span>
+              Selected Items
+            </span>
+
+            <strong>
+              {totalQuantity}
+            </strong>
           </div>
 
           <button
             type="button"
             className="enquiry-drawer-button"
-            disabled={items.length === 0}
+            disabled={
+              items.length === 0
+            }
             onClick={onEnquire}
           >
             ENQUIRE NOW
@@ -969,27 +1315,54 @@ function EnquiryForm({
   categoryTitle,
   onBack,
 }) {
-  const [name, setName] = useState("");
-  const [company, setCompany] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [product, setProduct] = useState(categoryTitle || "");
-  const [quantity, setQuantity] = useState("1");
-  const [message, setMessage] = useState("");
+  const [name, setName] =
+    useState("");
+
+  const [company, setCompany] =
+    useState("");
+
+  const [email, setEmail] =
+    useState("");
+
+  const [phone, setPhone] =
+    useState("");
+
+  const [product, setProduct] =
+    useState(
+      categoryTitle || ""
+    );
+
+  const [quantity, setQuantity] =
+    useState("1");
+
+  const [message, setMessage] =
+    useState("");
+
   const [submitted, setSubmitted] =
     useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [submissionError, setSubmissionError] = useState("");
+
+  const [submitting, setSubmitting] =
+    useState(false);
+
+  const [
+    submissionError,
+    setSubmissionError,
+  ] = useState("");
 
   // ----------------------------------------------------------
   // SUBMIT
   // ----------------------------------------------------------
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (
+    event
+  ) => {
     event.preventDefault();
+
     setSubmissionError("");
 
-    if (!event.currentTarget.checkValidity()) {
+    if (
+      !event.currentTarget.checkValidity()
+    ) {
       return;
     }
 
@@ -1007,16 +1380,40 @@ function EnquiryForm({
 
     try {
       await submitEnquiry({
-        subject: "New VAGARY Product Enquiry",
-        submittedAt: new Date().toISOString(),
-        customer: { name, company, email, phone },
-        enquiry: { product, collection: categoryTitle, quantity: Number(quantity), message },
-        selectedCartItems: selectedProducts,
+        subject:
+          "New VAGARY Product Enquiry",
+
+        submittedAt:
+          new Date().toISOString(),
+
+        customer: {
+          name,
+          company,
+          email,
+          phone,
+        },
+
+        enquiry: {
+          product,
+          collection:
+            categoryTitle,
+          quantity:
+            Number(quantity),
+          message,
+        },
+
+        selectedCartItems:
+          selectedProducts,
       });
+
+      setSubmitting(false);
       setSubmitted(true);
     } catch {
       setSubmitting(false);
-      setSubmissionError("Something went wrong. Please try again or contact us directly at info@vagaryonline.com.");
+
+      setSubmissionError(
+        "Something went wrong. Please try again or contact us directly at info@vagaryonline.com."
+      );
     }
   };
 
@@ -1034,7 +1431,7 @@ function EnquiryForm({
             </div>
 
             <span className="enquiry-drawer-eyebrow">
-              ENQUIRY READY
+              ENQUIRY SENT
             </span>
 
             <h1>
@@ -1042,9 +1439,10 @@ function EnquiryForm({
             </h1>
 
             <p>
-              Your email application should now open
-              with the enquiry details addressed to
-              VAGARY.
+              Your enquiry has been
+              submitted successfully.
+              The VAGARY team will get
+              back to you shortly.
             </p>
 
             <button
@@ -1074,26 +1472,35 @@ function EnquiryForm({
           </span>
 
           <h1>
-            Let&apos;s discuss your requirement.
+            Let&apos;s discuss your
+            requirement.
           </h1>
 
           <p>
-            Tell us what you are looking for and our
-            team will get back to you.
+            Tell us what you are
+            looking for and our team
+            will get back to you.
           </p>
 
           {/* SELECTED PRODUCTS */}
           {items.length > 0 && (
             <div className="enquiry-form-selection">
-              <h3>Selected Products</h3>
+              <h3>
+                Selected Products
+              </h3>
 
               {items.map((item) => (
                 <div
                   className="enquiry-form-selection-item"
-                  key={item.product.id}
+                  key={
+                    item.product.id
+                  }
                 >
                   <span>
-                    {item.product.name}
+                    {
+                      item.product
+                        .name
+                    }
                   </span>
 
                   <strong>
@@ -1113,17 +1520,21 @@ function EnquiryForm({
           </p>
         </div>
 
-        {/* RIGHT FORM */}
+        {/* RIGHT */}
         <div className="collection-enquiry-form-card">
           <form
             className="vagary-enquiry-form"
             onSubmit={handleSubmit}
           >
             {submissionError && (
-              <p className="contact-form-error" role="alert">
+              <p
+                className="contact-form-error"
+                role="alert"
+              >
                 {submissionError}
               </p>
             )}
+
             {/* NAME */}
             <div className="form-field">
               <label htmlFor="enquiry-name">
@@ -1135,7 +1546,9 @@ function EnquiryForm({
                 type="text"
                 value={name}
                 onChange={(event) =>
-                  setName(event.target.value)
+                  setName(
+                    event.target.value
+                  )
                 }
                 placeholder="Your full name"
                 required
@@ -1153,7 +1566,9 @@ function EnquiryForm({
                 type="email"
                 value={email}
                 onChange={(event) =>
-                  setEmail(event.target.value)
+                  setEmail(
+                    event.target.value
+                  )
                 }
                 placeholder="you@example.com"
                 required
@@ -1162,23 +1577,83 @@ function EnquiryForm({
 
             {/* COMPANY */}
             <div className="form-field">
-              <label htmlFor="enquiry-company">Company Name</label>
-              <input id="enquiry-company" type="text" value={company} onChange={(event) => setCompany(event.target.value)} required />
+              <label htmlFor="enquiry-company">
+                Company Name
+              </label>
+
+              <input
+                id="enquiry-company"
+                type="text"
+                value={company}
+                onChange={(event) =>
+                  setCompany(
+                    event.target.value
+                  )
+                }
+                placeholder="Company name"
+                required
+              />
             </div>
 
+            {/* PHONE */}
             <div className="form-field">
-              <label htmlFor="enquiry-phone">Contact Number</label>
-              <input id="enquiry-phone" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="Enter your contact number" pattern="[+]?[0-9 ()-]{10,15}" required />
+              <label htmlFor="enquiry-phone">
+                Contact Number
+              </label>
+
+              <input
+                id="enquiry-phone"
+                type="tel"
+                value={phone}
+                onChange={(event) =>
+                  setPhone(
+                    event.target.value
+                  )
+                }
+                placeholder="Enter your contact number"
+                pattern="[+]?[0-9 ()-]{10,15}"
+                required
+              />
             </div>
 
+            {/* PRODUCT */}
             <div className="form-field">
-              <label htmlFor="enquiry-product">Product / Collection</label>
-              <input id="enquiry-product" type="text" value={product} onChange={(event) => setProduct(event.target.value)} required />
+              <label htmlFor="enquiry-product">
+                Product / Collection
+              </label>
+
+              <input
+                id="enquiry-product"
+                type="text"
+                value={product}
+                onChange={(event) =>
+                  setProduct(
+                    event.target.value
+                  )
+                }
+                required
+              />
             </div>
 
+            {/* QUANTITY */}
             <div className="form-field">
-              <label htmlFor="enquiry-quantity">Quantity</label>
-              <input id="enquiry-quantity" type="number" min="1" step="1" value={quantity} onChange={(event) => setQuantity(event.target.value)} required />
+              <label htmlFor="enquiry-quantity">
+                Quantity
+              </label>
+
+              <input
+                id="enquiry-quantity"
+                type="number"
+                min="1"
+                step="1"
+                value={quantity}
+                onChange={(event) =>
+                  setQuantity(
+                    event.target.value
+                  )
+                }
+                required
+              />
             </div>
 
             {/* MESSAGE */}
@@ -1191,7 +1666,9 @@ function EnquiryForm({
                 id="enquiry-message"
                 value={message}
                 onChange={(event) =>
-                  setMessage(event.target.value)
+                  setMessage(
+                    event.target.value
+                  )
                 }
                 placeholder="Tell us about your requirement..."
                 rows="6"
@@ -1205,11 +1682,15 @@ function EnquiryForm({
               className="enquiry-submit-button"
               disabled={submitting}
             >
-              {submitting ? "SUBMITTING..." : "SEND ENQUIRY"}
+              {submitting
+                ? "SUBMITTING..."
+                : "SEND ENQUIRY"}
             </button>
 
             <p className="enquiry-form-note">
-              Your enquiry will be prepared for
+              Your enquiry will be sent
+              to
+              {" "}
               info@vagaryonline.com.
             </p>
           </form>
@@ -1219,17 +1700,23 @@ function EnquiryForm({
   );
 }
 
+// ============================================================
+// DRINKWARE CHOOSER
+// ============================================================
+
 function DrinkwareChooser() {
   const options = [
     {
       title: "Cups",
-      description: "Mugs, tumblers and reusable cups for everyday rituals.",
+      description:
+        "Mugs, tumblers and reusable cups for everyday rituals.",
       image: CUP_IMAGES[0],
       to: "/collections/drinkware/cups",
     },
     {
       title: "Bottles",
-      description: "Reusable bottles for hydration, travel and gifting.",
+      description:
+        "Reusable bottles for hydration, travel and gifting.",
       image: BOTTLE_IMAGES[0],
       to: "/collections/drinkware/bottles",
     },
@@ -1239,13 +1726,23 @@ function DrinkwareChooser() {
     <main className="category-page">
       <section className="category-hero">
         <div className="category-hero-inner">
-          <span className="category-eyebrow">SUSTAINABLE PRODUCTS</span>
+          <span className="category-eyebrow">
+            SUSTAINABLE PRODUCTS
+          </span>
+
           <h1>Drinkware</h1>
+
           <p>
-            Choose a drinkware collection to explore the real VAGARY products
-            and images inside it.
+            Choose a drinkware
+            collection to explore the
+            VAGARY products and images
+            inside it.
           </p>
-          <Link to="/collections" className="category-hero-secondary">
+
+          <Link
+            to="/collections"
+            className="category-hero-secondary"
+          >
             BACK TO COLLECTIONS
           </Link>
         </div>
@@ -1255,25 +1752,59 @@ function DrinkwareChooser() {
         <div className="wrap">
           <div className="category-section-heading">
             <div>
-              <span className="category-eyebrow">SELECT A COLLECTION</span>
-              <h2>Cups or Bottles</h2>
+              <span className="category-eyebrow">
+                SELECT A COLLECTION
+              </span>
+
+              <h2>
+                Cups or Bottles
+              </h2>
             </div>
           </div>
 
           <div className="drinkware-chooser-grid">
-            {options.map((option) => (
-              <Link key={option.to} to={option.to} className="drinkware-chooser-card">
-                <div className="drinkware-chooser-image">
-                  <img src={option.image} alt={option.title} />
-                </div>
-                <div className="drinkware-chooser-content">
-                  <span className="category-eyebrow">Drinkware</span>
-                  <h3>{option.title}</h3>
-                  <p>{option.description}</p>
-                  <span className="drinkware-chooser-link">VIEW COLLECTION →</span>
-                </div>
-              </Link>
-            ))}
+            {options.map(
+              (option) => (
+                <Link
+                  key={option.to}
+                  to={option.to}
+                  className="drinkware-chooser-card"
+                >
+                  <div className="drinkware-chooser-image">
+                    <img
+                      src={
+                        option.image
+                      }
+                      alt={
+                        option.title
+                      }
+                    />
+                  </div>
+
+                  <div className="drinkware-chooser-content">
+                    <span className="category-eyebrow">
+                      Drinkware
+                    </span>
+
+                    <h3>
+                      {
+                        option.title
+                      }
+                    </h3>
+
+                    <p>
+                      {
+                        option.description
+                      }
+                    </p>
+
+                    <span className="drinkware-chooser-link">
+                      VIEW COLLECTION →
+                    </span>
+                  </div>
+                </Link>
+              )
+            )}
           </div>
         </div>
       </section>
@@ -1291,21 +1822,28 @@ export default function CollectionCategoryPage() {
     subcategory,
   } = useParams();
 
-  const [selectedItems, setSelectedItems] =
-    useState([]);
+  const [
+    selectedItems,
+    setSelectedItems,
+  ] = useState([]);
 
-  const [drawerOpen, setDrawerOpen] =
-    useState(false);
+  const [
+    drawerOpen,
+    setDrawerOpen,
+  ] = useState(false);
 
-  const [showEnquiryForm, setShowEnquiryForm] =
-    useState(false);
+  const [
+    showEnquiryForm,
+    setShowEnquiryForm,
+  ] = useState(false);
 
   const { addItem } = useCart();
 
-  const categorySlug = slugify(category || "");
-  const subcategorySlug = slugify(
-    subcategory || ""
-  );
+  const categorySlug =
+    slugify(category || "");
+
+  const subcategorySlug =
+    slugify(subcategory || "");
 
   // ==========================================================
   // BODY SCROLL LOCK
@@ -1313,14 +1851,17 @@ export default function CollectionCategoryPage() {
 
   useEffect(() => {
     if (!drawerOpen) {
-      document.body.style.overflow = "";
+      document.body.style.overflow =
+        "";
+
       return;
     }
 
     const previousOverflow =
       document.body.style.overflow;
 
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow =
+      "hidden";
 
     return () => {
       document.body.style.overflow =
@@ -1333,8 +1874,13 @@ export default function CollectionCategoryPage() {
   // ==========================================================
 
   useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key !== "Escape") {
+    const handleKeyDown = (
+      event
+    ) => {
+      if (
+        event.key !==
+        "Escape"
+      ) {
         return;
       }
 
@@ -1361,13 +1907,20 @@ export default function CollectionCategoryPage() {
   // ==========================================================
 
   const categoryKey =
-    subcategorySlug || categorySlug;
+    subcategorySlug ||
+    categorySlug;
 
   const data =
     CATEGORY_DATA[categoryKey];
 
-  if (categorySlug === "drinkware" && !subcategorySlug) {
-    return <DrinkwareChooser />;
+  if (
+    categorySlug ===
+      "drinkware" &&
+    !subcategorySlug
+  ) {
+    return (
+      <DrinkwareChooser />
+    );
   }
 
   // ==========================================================
@@ -1388,8 +1941,9 @@ export default function CollectionCategoryPage() {
             </h1>
 
             <p>
-              The collection you are looking for
-              is not available.
+              The collection you
+              are looking for is
+              not available.
             </p>
 
             <Link
@@ -1404,52 +1958,66 @@ export default function CollectionCategoryPage() {
     );
   }
 
-  const products = data.products || [];
+  const products =
+    data.products || [];
 
   // ==========================================================
   // ADD ITEM
   // ==========================================================
 
-  const handleAddItem = (product) => {
-    const image = getExistingImage(product);
+  const handleAddItem = (
+    product
+  ) => {
+    const image =
+      getExistingImage(product);
 
     addItem({
       ...product,
-      images: product.images?.length
-        ? product.images
-        : image
+
+      images:
+        product.images?.length
+          ? product.images
+          : image
           ? [image]
           : [],
-      price: product.price ?? null,
+
+      price:
+        product.price ?? null,
     });
 
-    setSelectedItems((currentItems) => {
-      const existing =
-        currentItems.find(
-          (item) =>
-            item.product.id === product.id
-        );
+    setSelectedItems(
+      (currentItems) => {
+        const existing =
+          currentItems.find(
+            (item) =>
+              item.product.id ===
+              product.id
+          );
 
-      if (existing) {
-        return currentItems.map((item) =>
-          item.product.id === product.id
-            ? {
-                ...item,
-                quantity:
-                  item.quantity + 1,
-              }
-            : item
-        );
+        if (existing) {
+          return currentItems.map(
+            (item) =>
+              item.product.id ===
+              product.id
+                ? {
+                    ...item,
+                    quantity:
+                      item.quantity +
+                      1,
+                  }
+                : item
+          );
+        }
+
+        return [
+          ...currentItems,
+          {
+            product,
+            quantity: 1,
+          },
+        ];
       }
-
-      return [
-        ...currentItems,
-        {
-          product,
-          quantity: 1,
-        },
-      ];
-    });
+    );
 
     setDrawerOpen(true);
   };
@@ -1461,11 +2029,13 @@ export default function CollectionCategoryPage() {
   const handleRemoveItem = (
     productId
   ) => {
-    setSelectedItems((currentItems) =>
-      currentItems.filter(
-        (item) =>
-          item.product.id !== productId
-      )
+    setSelectedItems(
+      (currentItems) =>
+        currentItems.filter(
+          (item) =>
+            item.product.id !==
+            productId
+        )
     );
   };
 
@@ -1477,20 +2047,25 @@ export default function CollectionCategoryPage() {
     productId,
     quantity
   ) => {
-    const nextQuantity = Math.max(
-      1,
-      Number(quantity) || 1
-    );
+    const nextQuantity =
+      Math.max(
+        1,
+        Number(quantity) || 1
+      );
 
-    setSelectedItems((currentItems) =>
-      currentItems.map((item) =>
-        item.product.id === productId
-          ? {
-              ...item,
-              quantity: nextQuantity,
-            }
-          : item
-      )
+    setSelectedItems(
+      (currentItems) =>
+        currentItems.map(
+          (item) =>
+            item.product.id ===
+            productId
+              ? {
+                  ...item,
+                  quantity:
+                    nextQuantity,
+                }
+              : item
+        )
     );
   };
 
@@ -1525,14 +2100,15 @@ export default function CollectionCategoryPage() {
   // BACK
   // ==========================================================
 
-  const handleBackToCollection = () => {
-    setShowEnquiryForm(false);
+  const handleBackToCollection =
+    () => {
+      setShowEnquiryForm(false);
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    };
 
   // ==========================================================
   // ENQUIRY FORM PAGE
@@ -1543,7 +2119,9 @@ export default function CollectionCategoryPage() {
       <>
         <EnquiryForm
           items={selectedItems}
-          categoryTitle={data.title}
+          categoryTitle={
+            data.title
+          }
           onBack={
             handleBackToCollection
           }
@@ -1555,11 +2133,15 @@ export default function CollectionCategoryPage() {
           onClose={() =>
             setDrawerOpen(false)
           }
-          onRemove={handleRemoveItem}
+          onRemove={
+            handleRemoveItem
+          }
           onQuantityChange={
             handleQuantityChange
           }
-          onEnquire={handleEnquireNow}
+          onEnquire={
+            handleEnquireNow
+          }
         />
       </>
     );
@@ -1577,32 +2159,18 @@ export default function CollectionCategoryPage() {
 
       <section className="category-hero">
         <div className="category-hero-inner">
-          <span className="category-eyebrow">
-            {data.eyebrow ||
-              "VAGARY COLLECTION"}
-          </span>
+          
 
-          <h1>{data.title}</h1>
+          <h1>
+            {data.title}
+          </h1>
 
-          <p>{data.description}</p>
+          
 
           <div className="category-hero-actions">
-            <button
-              type="button"
-              className="category-hero-button"
-              onClick={
-                handleHeroEnquire
-              }
-            >
-              ENQUIRE NOW
-            </button>
+            
 
-            <Link
-              to="/collections"
-              className="category-hero-secondary"
-            >
-              VIEW ALL COLLECTIONS
-            </Link>
+           
           </div>
         </div>
       </section>
@@ -1613,7 +2181,8 @@ export default function CollectionCategoryPage() {
 
       {(categorySlug ===
         "drinkware" ||
-        categorySlug === "cups" ||
+        categorySlug ===
+          "cups" ||
         categorySlug ===
           "bottles") && (
         <nav
@@ -1623,7 +2192,8 @@ export default function CollectionCategoryPage() {
           <Link
             to="/collections/drinkware/cups"
             className={
-              categoryKey === "cups"
+              categoryKey ===
+              "cups"
                 ? "active"
                 : ""
             }
@@ -1634,7 +2204,8 @@ export default function CollectionCategoryPage() {
           <Link
             to="/collections/drinkware/bottles"
             className={
-              categoryKey === "bottles"
+              categoryKey ===
+              "bottles"
                 ? "active"
                 : ""
             }
@@ -1651,31 +2222,33 @@ export default function CollectionCategoryPage() {
       <section className="category-products-section">
         <div className="category-section-heading">
           <div>
-            <span className="category-eyebrow">
-              THE COLLECTION
-            </span>
+            
 
             <h2>
-              {products.length} Products
+              {products.length}{" "}
+              Products
             </h2>
           </div>
 
-          <p>
-            Select one or more products to add
-            them to your enquiry.
-          </p>
+         
         </div>
 
         <div className="category-products-grid">
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAddItem={
-                handleAddItem
-              }
-            />
-          ))}
+          {products.map(
+            (product) => (
+              <ProductCard
+                key={
+                  product.id
+                }
+                product={
+                  product
+                }
+                onAddItem={
+                  handleAddItem
+                }
+              />
+            )
+          )}
         </div>
       </section>
 
@@ -1697,9 +2270,10 @@ export default function CollectionCategoryPage() {
 
           <p>
             Tell us your requirement,
-            quantity and branding needs.
-            Our team can help curate the
-            right collection for you.
+            quantity and branding
+            needs. Our team can help
+            curate the right collection
+            for you.
           </p>
 
           <button
@@ -1738,7 +2312,9 @@ export default function CollectionCategoryPage() {
         onClose={() =>
           setDrawerOpen(false)
         }
-        onRemove={handleRemoveItem}
+        onRemove={
+          handleRemoveItem
+        }
         onQuantityChange={
           handleQuantityChange
         }
@@ -1749,4 +2325,3 @@ export default function CollectionCategoryPage() {
     </main>
   );
 }
-

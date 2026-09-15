@@ -2,12 +2,7 @@ import { Link } from "react-router-dom";
 import { IconInstagram, IconLinkedIn } from "./Icons";
 
 const LINKS = [
-  { label: "Home", to: "/" },
-  { label: "About", to: "/about" },
-  { label: "Collections", to: "/collections" },
-  { label: "Bags", to: "/bags" },
-  { label: "Sustainability", to: "/sustainability" },
-  { label: "Contact", to: "/contact" },
+  
 ];
 
 export default function Footer() {
@@ -16,8 +11,8 @@ export default function Footer() {
       <div className="wrap">
         <div className="footer-top">
           <div className="footer-brand">
-            <Link to="/" className="nav-logo">VAGARY</Link>
-            <p>Sustainable products, thoughtful design and considered gifting for everyday living and modern businesses.</p>
+            <Link to="/" className="nav-logo">CONTACT</Link>
+           
           </div>
           <nav className="footer-nav">
             {LINKS.map((l) => (
@@ -41,9 +36,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="footer-bottom">
-          © {new Date().getFullYear()} VAGARY. All rights reserved.
-        </div>
+        
       </div>
     </footer>
   );
