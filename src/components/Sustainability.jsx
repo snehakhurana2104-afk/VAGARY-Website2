@@ -31,9 +31,7 @@ export default function Sustainability() {
           tableware. Every product is designed to be strong, durable and
           recyclable, meaning less waste and less reliance on new plastic.
         </p>
-        <Link to="/sustainability" className="editorial-link">
-          Discover our approach <IconArrow className="arrow" width={16} height={16} />
-        </Link>
+        
       </div>
     </section>
   );
