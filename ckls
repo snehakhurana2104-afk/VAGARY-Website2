@@ -1,0 +1,8 @@
+[33med29d70[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Update website and images
+[33mfe8423a[m Add all website images
+[33m1cf63e9[m Add hero image
+[33mea611db[m Update website
+[33mb0477c9[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Remove link to sustainability approach
+[33m85b1170[m Fix Vite React dependency compatibility
+[33me231974[m Fix Vite dependency conflict
+[33m4ff87a4[m Fix Vite Vercel deployment
