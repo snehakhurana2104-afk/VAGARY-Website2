@@ -24,7 +24,7 @@ export default function Sustainability() {
         <p className="eyebrow">Our Sustainability Story</p>
         <h2>From farm leftovers to<br />thoughtful products.</h2>
         <p>
-          After rice and wheat are harvested, the leftover husks and stalks
+          Aaaaafter rice and wheat are harvested, the leftover husks and stalks
           are often thrown away or burned. We repurpose these farm leftovers,
           combining them with a small amount of strong material to create
           BioDur — the material behind our gardenware, drinkware and

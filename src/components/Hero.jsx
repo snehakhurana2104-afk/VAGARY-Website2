@@ -9,10 +9,10 @@ export default function Hero() {
           BACKGROUND / PRODUCT IMAGE
       ========================================= */}
       <div className="hero-background">
-        <img
-          src="/public/images/Firstpic.png"
-          alt="VAGARY sustainable products"
-        />
+       <img
+  src="/images/hero/Firstpic.png"
+  alt="VAGARY sustainable products"
+/>
       </div>
 
       {/* =========================================
