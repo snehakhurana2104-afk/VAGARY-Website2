@@ -11,7 +11,7 @@ import SustainabilityPage from "./pages/SustainabilityPage";
 import ContactPage from "./pages/ContactPage";
 import CollectionCategoryPage from "./pages/CollectionCategoryPage";
 import NotFound from "./pages/NotFound";
-
+import EnquirySuccessPage from "./pages/EnquirySuccessPage";
 import "./app.css";
 
 export default function App() {
@@ -116,7 +116,10 @@ export default function App() {
           element={<SustainabilityPage />}
         />
 
-
+           <Route
+  path="/enquiry-success"
+  element={<EnquirySuccessPage />}
+/>
         {/* =====================================================
             CONTACT
         ===================================================== */}
