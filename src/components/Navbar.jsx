@@ -71,11 +71,11 @@ export default function Navbar() {
 
         {/* CENTER LOGO */}
         <Link to="/" className="nav-logo" aria-label="VAGARY Home">
-          <img
-            src="/public/images/Logo.png"
-            alt="VAGARY"
-            className="nav-logo-image"
-          />
+   <img
+  src="/images/Logo.png"
+  alt="VAGARY"
+  className="nav-logo-image"
+/>
         </Link>
 
         {/* RIGHT SIDE */}
