@@ -81,20 +81,243 @@ button { cursor: pointer; }
 .announce-socials { display: flex; gap: 10px; }
 .announce-socials svg { width: 13px; height: 13px; }
 
-.navbar { position: sticky; top: 0; z-index: 1000; background: rgba(8,8,8,0.96); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
-.nav-inner { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; min-height: 76px; }
-.nav-left, .nav-right { display: flex; align-items: center; gap: 22px; }
-.nav-right { justify-content: flex-end; }
-.nav-desktop-links { display: flex; align-items: center; gap: 22px; }
-.nav-link, .nav-collections-btn { position: relative; background: transparent; border: 0; color: var(--ivory); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0; transition: color .25s ease; }
-.nav-link::after, .nav-collections-btn::after { content: ''; position: absolute; left: 0; bottom: -10px; width: 0; height: 1px; background: var(--gold); transition: width .25s ease; }
-.nav-link:hover, .nav-link.active, .nav-collections-btn:hover, .nav-collections-btn.active { color: var(--gold-light); }
-.nav-link:hover::after, .nav-link.active::after, .nav-collections-btn:hover::after, .nav-collections-btn.active::after { width: 100%; }
-.nav-logo { color: var(--gold); font-family: var(--serif); font-size: clamp(1.8rem, 2vw, 2.3rem); letter-spacing: 0.18em; text-transform: uppercase; text-align: center; }
-.nav-hamburger { display: none; background: transparent; color: var(--ivory); border: 1px solid var(--border); border-radius: 999px; width: 42px; height: 42px; align-items: center; justify-content: center; }
-.mobile-nav-panel { display: none; border-top: 1px solid var(--border); background: rgba(8,8,8,.98); }
-.mobile-nav-links { display: flex; flex-direction: column; width: min(var(--max-w), calc(100% - 40px)); margin: 0 auto; padding: 14px 0 20px; }
-.mobile-nav-links .nav-link { display: block; padding: 15px 0; border-bottom: 1px solid rgba(200,164,93,.14); }
+/* =========================================================
+   VAGARY NAVBAR
+   Logo comes BEFORE Home / About
+========================================================= */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  background: rgba(8, 8, 8, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-inner {
+  width: min(var(--max-w), calc(100% - 40px));
+  min-height: 76px;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  position: relative;
+}
+
+/* Logo is first visually, before Home */
+.nav-logo {
+  order: 1;
+  flex: 0 0 145px;
+  width: 145px;
+  height: 64px;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  color: var(--gold);
+  text-decoration: none;
+  z-index: 5;
+}
+
+.nav-logo-image {
+  display: block;
+  width: 145px;
+  max-width: 145px;
+  height: 64px;
+  max-height: 64px;
+  min-width: 0;
+  object-fit: contain;
+  object-position: left center;
+}
+
+/* Home + About */
+.nav-left {
+  order: 2;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  min-width: 0;
+}
+
+.nav-desktop-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.nav-link,
+.nav-collections-btn {
+  position: relative;
+  background: transparent;
+  border: 0;
+  color: var(--ivory);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0;
+  white-space: nowrap;
+  transition: color 0.25s ease;
+}
+
+.nav-link::after,
+.nav-collections-btn::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover,
+.nav-link.active,
+.nav-collections-btn:hover,
+.nav-collections-btn.active {
+  color: var(--gold-light);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after,
+.nav-collections-btn:hover::after,
+.nav-collections-btn.active::after {
+  width: 100%;
+}
+
+/* Empty right side keeps spacing clean */
+.nav-right {
+  order: 3;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 1px;
+}
+
+/* Hamburger */
+.nav-hamburger {
+  display: none;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  color: var(--ivory);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.nav-hamburger svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Mobile navigation */
+.mobile-nav-panel {
+  display: none;
+  border-top: 1px solid var(--border);
+  background: rgba(8, 8, 8, 0.98);
+}
+
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  width: min(var(--max-w), calc(100% - 40px));
+  margin: 0 auto;
+  padding: 14px 0 20px;
+}
+
+.mobile-nav-links .nav-link {
+  display: block;
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(200, 164, 93, 0.14);
+}
+
+/* Prevent the global img rule from making the logo huge */
+.nav-logo img {
+  width: 145px;
+  max-width: 145px;
+  height: 64px;
+  max-height: 64px;
+  object-fit: contain;
+}
+
+
+/* =========================================================
+   NAVBAR RESPONSIVE
+========================================================= */
+
+@media (max-width: 980px) {
+  .nav-desktop-links {
+    display: none;
+  }
+
+  .nav-hamburger {
+    display: inline-flex;
+  }
+
+  .mobile-nav-panel {
+    display: block;
+  }
+
+  .nav-inner {
+    min-height: 72px;
+    gap: 18px;
+  }
+
+  .nav-logo {
+    flex-basis: 125px;
+    width: 125px;
+    height: 58px;
+  }
+
+  .nav-logo-image,
+  .nav-logo img {
+    width: 125px;
+    max-width: 125px;
+    height: 58px;
+    max-height: 58px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-inner {
+    width: calc(100% - 28px);
+    min-height: 66px;
+    gap: 14px;
+  }
+
+  .nav-logo {
+    flex-basis: 108px;
+    width: 108px;
+    height: 54px;
+  }
+
+  .nav-logo-image,
+  .nav-logo img {
+    width: 108px;
+    max-width: 108px;
+    height: 54px;
+    max-height: 54px;
+  }
+
+  .nav-hamburger {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+  }
+
+  .mobile-nav-links {
+    width: calc(100% - 28px);
+  }
+}
 
 .collections-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 9998; }
 .collections-menu { position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: min(980px, calc(100vw - 28px)); background: rgba(16,16,16,0.98); border: 1px solid var(--border); box-shadow: 0 30px 70px rgba(0,0,0,0.35); z-index: 9999; }

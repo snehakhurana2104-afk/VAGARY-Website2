@@ -13,9 +13,15 @@ export default function Navbar() {
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 8);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 8);
+    };
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -24,6 +30,7 @@ export default function Navbar() {
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+
     return () => {
       document.body.style.overflow = "";
     };
@@ -35,6 +42,8 @@ export default function Navbar() {
   return (
     <nav className={`navbar${scrolled ? " scrolled" : ""}`}>
       <div className="wrap nav-inner">
+
+        {/* LEFT SIDE */}
         <div className="nav-left">
           <button
             type="button"
@@ -60,15 +69,26 @@ export default function Navbar() {
           </div>
         </div>
 
-        <Link to="/" className="nav-logo" aria-label="VAGARY home">
-          VAGARY
+        {/* CENTER LOGO */}
+        <Link to="/" className="nav-logo" aria-label="VAGARY Home">
+          <img
+            src="/public/images/Logo.png"
+            alt="VAGARY"
+            className="nav-logo-image"
+          />
         </Link>
 
+        {/* RIGHT SIDE */}
         <div className="nav-right" />
+
       </div>
 
+      {/* MOBILE MENU */}
       {open && (
-        <div className="mobile-nav-panel" aria-label="Mobile navigation">
+        <div
+          className="mobile-nav-panel"
+          aria-label="Mobile navigation"
+        >
           <div className="mobile-nav-links">
             {NAV_LINKS.map((link) => (
               <NavLink

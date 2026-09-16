@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import {
-  drinkwareCatalog,
-  bottlesCatalog,
+  drinkwareCatalogOnly,
+  bottlesCatalogOnly,
 } from "../data/products";
 import { formatPrice } from "../utils/formatPrice";
 import { submitEnquiry } from "../utils/submitEnquiry";
@@ -112,11 +112,11 @@ function buildProducts({
 // PRODUCT NAMES
 // ============================================================
 
-const CUP_NAMES = drinkwareCatalog.map(
+const CUP_NAMES = drinkwareCatalogOnly.map(
   (item) => item.name
 );
 
-const BOTTLE_NAMES = bottlesCatalog.map(
+const BOTTLE_NAMES = bottlesCatalogOnly.map(
   (item) => item.name
 );
 
@@ -1726,25 +1726,12 @@ function DrinkwareChooser() {
     <main className="category-page">
       <section className="category-hero">
         <div className="category-hero-inner">
-          <span className="category-eyebrow">
-            SUSTAINABLE PRODUCTS
-          </span>
+         
 
           <h1>Drinkware</h1>
 
-          <p>
-            Choose a drinkware
-            collection to explore the
-            VAGARY products and images
-            inside it.
-          </p>
-
-          <Link
-            to="/collections"
-            className="category-hero-secondary"
-          >
-            BACK TO COLLECTIONS
-          </Link>
+         
+        
         </div>
       </section>
 
@@ -1752,9 +1739,7 @@ function DrinkwareChooser() {
         <div className="wrap">
           <div className="category-section-heading">
             <div>
-              <span className="category-eyebrow">
-                SELECT A COLLECTION
-              </span>
+            
 
               <h2>
                 Cups or Bottles
@@ -2224,10 +2209,7 @@ export default function CollectionCategoryPage() {
           <div>
             
 
-            <h2>
-              {products.length}{" "}
-              Products
-            </h2>
+            <h2>Products</h2>
           </div>
 
          

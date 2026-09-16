@@ -3,7 +3,7 @@ import { IconArrow } from "./Icons";
 
 const FEATURE_PANELS = [
   {
-    label: "Sustainable Products",
+    
     title: "Made for the way you live.",
     description: "Everyday essentials shaped by considered materials and practical design.",
     image: "/images/products/eco-spring-bottle-duo.jpg",

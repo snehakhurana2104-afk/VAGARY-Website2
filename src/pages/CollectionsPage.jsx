@@ -16,7 +16,7 @@ const COLLECTION_SECTIONS = [
     ],
   },
   {
-    title: "Sustainable Products",
+    
     
     items: [
       { label: "Drinkware", to: "/collections/drinkware", image: "/images/collections/drinkware.jpg" },
